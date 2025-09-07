@@ -15,8 +15,8 @@ export default function UploadCard({ onFile, onRun, onClear, onLoadSample, onRun
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 12 }}>
         <button onClick={onRun} style={{ padding: "8px 12px", background: "#0F172A", color: "white", borderRadius: 8, border: 0 }}>Run Analysis</button>
         <button onClick={onClear} style={{ padding: "8px 12px", border: "1px solid #CBD5E1", borderRadius: 8, background: "white" }}>Clear</button>
-        <button onClick={onLoadSample} style={{ padding: "8px 12px", border: "1px solid #CBD5E1", borderRadius: 8, background: "white" }}>Load Sample Data</button>
-        <button onClick={onRunTests} style={{ padding: "8px 12px", border: "1px solid #CBD5E1", borderRadius: 8, background: "white" }}>Run Tests</button>
+        {/* <button onClick={onLoadSample} style={{ padding: "8px 12px", border: "1px solid #CBD5E1", borderRadius: 8, background: "white" }}>Load Sample Data</button>  */}
+        {/* <button onClick={onRunTests} style={{ padding: "8px 12px", border: "1px solid #CBD5E1", borderRadius: 8, background: "white" }}>Run Tests</button> */}
       </div>
     </div>
   );
