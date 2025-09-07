@@ -19,7 +19,7 @@ export default function ResultsTable({ results, runMeta, onXLSX, onCSV, onPDF })
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
             <thead>
               <tr style={{ textAlign: "left", background: "#E2E8F0" }}>
-                {["Ad Set Name","Spend (short)","Purchases (short)","CPA (short)","Relative CPA","Decision","Decision Explanation","Long-Term Summary"].map(h => (
+                {["Ad Set Name","Spend","Purchases","CPA","Relative CPA","Decision","Decision Explanation","Extended Trends"].map(h => (
                   <th key={h} style={{ padding: 8, borderBottom: "1px solid #E2E8F0" }}>{h}</th>
                 ))}
               </tr>

@@ -53,6 +53,7 @@ export default function App() {
     }
     const rows = mapMetaRows(rawRows)
       .filter((r) => r.adset_id && (r.date || r.Day))
+      .filter((r) => (r.delivery || r.Delivery || "").toString().toLowerCase() === "active") // Only include rows where delivery is 'active'
       .map((r) => ({ ...r, date: new Date(r.date || r.Day), spend: Number(r.spend ?? r["Amount spent (USD)"] ?? 0), purchases: Number(r.purchases ?? r["Purchases"] ?? 0) }));
 
     const shortAgg = aggregateWindow(rows, params.lookback_days_short);

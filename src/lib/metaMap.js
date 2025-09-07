@@ -4,6 +4,7 @@ export const HEADER_MAP = {
   Day: "date",
   "Amount spent (USD)": "spend",
   Purchases: "purchases",
+  "Delivery status": "delivery",
 };
 
 export function mapMetaRows(rawRows) {
