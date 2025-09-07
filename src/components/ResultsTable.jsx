@@ -4,7 +4,7 @@ export default function ResultsTable({ results, runMeta, onXLSX, onCSV, onPDF })
   return (
     <div style={{ marginTop: 24, background: "#fff", borderRadius: 16, boxShadow: "0 1px 8px rgba(0,0,0,0.06)", padding: 16 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <h2 style={{ fontWeight: 500 }}>3) Results</h2>
+        <h2 style={{ fontWeight: 500 }}>Results</h2>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
           <button onClick={onXLSX} disabled={!results.length} style={{ padding: "8px 12px", border: "1px solid #CBD5E1", borderRadius: 8, background: "white" }}>Download XLSX</button>
           <button onClick={onCSV}  disabled={!results.length} style={{ padding: "8px 12px", border: "1px solid #CBD5E1", borderRadius: 8, background: "white" }}>Download CSV</button>

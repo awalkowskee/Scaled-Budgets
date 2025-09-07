@@ -4,7 +4,12 @@ export default function UploadCard({ onFile, onRun, onClear, onLoadSample, onRun
   const inputRef = React.useRef(null);
   return (
     <div style={{ background: "#fff", borderRadius: 16, boxShadow: "0 1px 8px rgba(0,0,0,0.06)", padding: 16 }}>
-      <h2 style={{ fontWeight: 500, marginBottom: 12 }}>1) Upload CSV/XLS</h2>
+      <h2 style={{ fontWeight: 500, marginBottom: 12 }}>Upload CSV/XLS</h2>
+      <p style={{ fontSize: 12, color: "#334155", marginBottom: 10 }}>
+        Upload a Meta Ads Report that follows these specifications: 
+        <br></br>Timeframe: Last 21 days, by day. 
+        <br></br>Columns: Ad Set Name, Ad Set ID, Amount Spent, Ad Set Delivery, and Purchases (or main KPI)
+      </p>
       <input ref={inputRef} type="file" accept=".csv,.xlsx,.xls" onChange={(e) => e.target.files && onFile(e.target.files[0])} style={{ display: "none" }}/>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <button onClick={() => inputRef.current?.click()} style={{ padding: "8px 12px", background: "#4F46E5", color: "white", borderRadius: 8, border: 0 }}>Upload File</button>

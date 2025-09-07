@@ -45,13 +45,14 @@ export default function HamburgerMenu({ children }) {
           borderRadius: 12,
           boxShadow: "0 2px 16px rgba(0,0,0,0.10)",
           minWidth: 340,
-          padding: "12px 24px 12px 12px", // Added extra right padding
+          padding: "12px 24px 100px 12px", // Added extra right padding
           transition: "all 0.3s ease-in-out",
           opacity: open ? 1 : 0,
           transform: open ? "translateX(0)" : "translateX(20px)",
           visibility: open ? "visible" : "hidden",
           pointerEvents: open ? "all" : "none",
-          maxHeight: "calc(100vh - 48px)", // 24px from top and bottom
+          maxHeight: "calc(100vh - 100px)", // 30px smaller than screen height
+          paddingBottom: 100, // Ensure bottom padding for visibility
           overflowY: "auto",
         }}
       >
