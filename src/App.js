@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from "react";
 import UploadCard from "./components/UploadCard.jsx";
 import AdvancedPanel from "./components/AdvancedPanel.jsx";
+import HamburgerMenu from "./components/HamburgerMenu.jsx";
 import ResultsTable from "./components/ResultsTable.jsx";
+
 
 import { DEFAULTS } from "./lib/constants.js";
 import { fmtCurrency, fmtInteger, fmt2, toDate } from "./lib/format.js";
@@ -113,7 +115,14 @@ export default function App() {
             rowsCount={rawRows.length}
             error={error}
           />
-          <AdvancedPanel params={params} onChange={(k,v)=>setParams(p=>({...p,[k]:v}))} show={showAdvanced} setShow={setShowAdvanced} />
+          <HamburgerMenu>
+            <AdvancedPanel
+              params={params}
+              onChange={(k,v)=>setParams(p=>({...p,[k]:v}))}
+              show={showAdvanced}
+              setShow={setShowAdvanced}
+            />
+          </HamburgerMenu>
         </div>
 
         <ResultsTable
