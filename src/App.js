@@ -112,11 +112,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen" style={{ background: "#F8FAFC", color: "#0F172A", fontFamily: "system-ui,-apple-system,Segoe UI,Roboto,Arial" }}>
-      <div className="mx-auto" style={{ maxWidth: 1100, padding: 24 }}>
+      <div className="mx-auto" style={{ maxWidth: 1600, padding: 24 }}>
         <h1 style={{ fontSize: 24, fontWeight: 600, marginBottom: 8 }}>Scaled Budgets — MVP</h1>
         <p style={{ fontSize: 14, color: "#475569", marginBottom: 24 }}>Upload your Meta Ads Manager daily export, tweak advanced knobs, and generate concise, manager-ready budget recommendations.</p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "3fr 1fr", gap: 16 }}>
           <UploadCard
             onFile={handleFile}
             onRun={runAnalysis}
