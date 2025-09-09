@@ -1,6 +1,11 @@
 import React from "react";
 
 export default function ResultsTable({ results, runMeta, onXLSX, onCSV, onPDF }) {
+  // Aggregate calculations
+  const sumSpend = results.reduce((a, r) => a + (parseFloat(r.spend_short?.replace(/[^0-9.-]+/g, "")) || 0), 0);
+  const sumPurchases = results.reduce((a, r) => a + (parseInt(r.purchases_short?.replace(/[^0-9.-]+/g, "")) || 0), 0);
+  const aggCPA = sumPurchases > 0 ? sumSpend / sumPurchases : null;
+
   return (
     <div style={{ marginTop: 24, background: "#fff", borderRadius: 16, boxShadow: "0 1px 8px rgba(0,0,0,0.06)", padding: 16 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -37,6 +42,16 @@ export default function ResultsTable({ results, runMeta, onXLSX, onCSV, onPDF })
                   <td style={{ padding: 8, minWidth: 320 }}>{r.longterm_summary}</td>
                 </tr>
               ))}
+              {/* Aggregate row */}
+              {results.length > 0 && (
+                <tr style={{ background: "#F1F5F9", fontWeight: 600 }}>
+                  <td style={{ padding: 8 }}>Aggregate Data</td>
+                  <td style={{ padding: 8 }}>{`$${sumSpend.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`}</td>
+                  <td style={{ padding: 8 }}>{sumPurchases}</td>
+                  <td style={{ padding: 8 }}>{aggCPA != null ? `$${aggCPA.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}` : "N/A"}</td>
+                  <td style={{ padding: 8 }} colSpan={4}></td>
+                </tr>
+              )}
             </tbody>
           </table>
 
