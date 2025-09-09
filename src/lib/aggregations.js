@@ -16,7 +16,7 @@ export function withinDays(date, maxDate, days) {
   return d >= start && d <= end;
 }
 
-export function aggregateWindow(rows, days, relativeCPAMode = "median") {
+export function aggregateWindow(rows, days) {
   if (!rows.length) return [];
   const maxDate = rows.reduce((m, r) => (!m || r.date > m ? r.date : m), null);
   const byId = new Map();
@@ -30,27 +30,8 @@ export function aggregateWindow(rows, days, relativeCPAMode = "median") {
     acc.spend += Number(r.spend ?? 0);
     acc.purchases += Number(r.purchases ?? 0);
   });
-
-  const adsets = Array.from(byId.values()).map((rec) => ({
+  return Array.from(byId.values()).map((rec) => ({
     ...rec,
     cpa: rec.purchases > 0 ? rec.spend / rec.purchases : null,
-  }));
-
-  // Calculate reference CPA
-  const cpas = adsets.map((r) => r.cpa).filter((c) => c != null && !isNaN(c));
-  let referenceCPA = null;
-  if (relativeCPAMode === "average") {
-    // Use aggregate CPA (total spend / total purchases)
-    const totalSpend = adsets.reduce((sum, r) => sum + (r.spend || 0), 0);
-    const totalPurchases = adsets.reduce((sum, r) => sum + (r.purchases || 0), 0);
-    referenceCPA = totalPurchases > 0 ? totalSpend / totalPurchases : null;
-  } else {
-    referenceCPA = median(cpas);
-  }
-
-  // Add relative_cpa
-  return adsets.map((rec) => ({
-    ...rec,
-    relative_cpa: rec.cpa != null && referenceCPA ? rec.cpa / referenceCPA : null,
   }));
 }

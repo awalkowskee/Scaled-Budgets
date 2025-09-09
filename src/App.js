@@ -16,10 +16,7 @@ import { runUnitTests } from "./lib/tests.js";
 
 export default function App() {
   const [rawRows, setRawRows] = useState([]);
-  const [params, setParams] = useState({
-    ...DEFAULTS,
-    relative_cpa_mode: "median",
-  });
+  const [params, setParams] = useState(DEFAULTS);
   const [results, setResults] = useState([]);
   const [runMeta, setRunMeta] = useState(null);
   const [error, setError] = useState("");
@@ -56,30 +53,22 @@ export default function App() {
     }
     const rows = mapMetaRows(rawRows)
       .filter((r) => r.adset_id && (r.date || r.Day))
-      .filter((r) => (r.delivery || r.Delivery || "").toString().toLowerCase() === "active")
+      .filter((r) => (r.delivery || r.Delivery || "").toString().toLowerCase() === "active") // Only include rows where delivery is 'active'
       .map((r) => ({ ...r, date: new Date(r.date || r.Day), spend: Number(r.spend ?? r["Amount spent (USD)"] ?? 0), purchases: Number(r.purchases ?? r["Purchases"] ?? 0) }));
 
-    // Use selected mode for shortAgg and for reference CPA
-    const shortAgg = aggregateWindow(rows, params.lookback_days_short, params.relative_cpa_mode);
-    // For decision logic, use the same reference CPA as in shortAgg
-    const cpaPool = shortAgg.filter((a) => a.purchases >= params.conv_consider_min && a.cpa != null).map((a) => a.cpa);
-    let referenceCPA = null;
-    if (params.relative_cpa_mode === "average") {
-      referenceCPA = cpaPool.length ? cpaPool.reduce((a, b) => a + b, 0) / cpaPool.length : null;
-    } else {
-      referenceCPA = median(cpaPool);
-    }
+    const shortAgg = aggregateWindow(rows, params.lookback_days_short);
+    const medianPool = shortAgg.filter((a) => a.purchases >= params.conv_consider_min && a.cpa != null).map((a) => a.cpa);
+    const medCPA = median(medianPool);
 
     const longAggMap = {};
     for (const win of params.longterm_windows) {
-      const agg = aggregateWindow(rows, win, params.relative_cpa_mode);
+      const agg = aggregateWindow(rows, win);
       longAggMap[win] = Object.fromEntries(agg.map((r) => [r.adset_id, r]));
     }
 
-    const insufficient = referenceCPA == null || isNaN(referenceCPA);
+    const insufficient = medCPA == null || isNaN(medCPA);
     const out = shortAgg.map((s) => {
-      // Use the relative_cpa from shortAgg, not recomputed
-      const rel = s.relative_cpa;
+      const rel = s.cpa != null && medCPA ? s.cpa / medCPA : null;
       const c7 = longAggMap[7]?.[s.adset_id]?.cpa ?? null;
       const c14 = longAggMap[14]?.[s.adset_id]?.cpa ?? null;
       const c21 = longAggMap[21]?.[s.adset_id]?.cpa ?? null;
@@ -102,7 +91,7 @@ export default function App() {
     });
 
     setResults(out);
-    setRunMeta({ timestamp: new Date().toISOString(), latestDate: latestDate ? new Date(latestDate).toISOString() : null, params, referenceCPA });
+    setRunMeta({ timestamp: new Date().toISOString(), latestDate: latestDate ? new Date(latestDate).toISOString() : null, params, medianCPA: medCPA });
   };
 
   const clearAll = () => { setRawRows([]); setResults([]); setRunMeta(null); setError(""); setTests([]); setUploadedFileName(""); };
@@ -112,11 +101,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen" style={{ background: "#F8FAFC", color: "#0F172A", fontFamily: "system-ui,-apple-system,Segoe UI,Roboto,Arial" }}>
-      <div className="mx-auto" style={{ maxWidth: 1100, padding: 24 }}>
+      <div className="mx-auto" style={{ maxWidth: "1600px", padding: 24 }}>
         <h1 style={{ fontSize: 24, fontWeight: 600, marginBottom: 8 }}>Scaled Budgets — MVP</h1>
         <p style={{ fontSize: 14, color: "#475569", marginBottom: 24 }}>Upload your Meta Ads Manager daily export, tweak advanced knobs, and generate concise, manager-ready budget recommendations.</p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "3fr 1fr", gap: 16 }}>
           <UploadCard
             onFile={handleFile}
             onRun={runAnalysis}

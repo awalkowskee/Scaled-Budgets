@@ -17,24 +17,6 @@ export default function AdvancedPanel({ params, onChange }) {
           Note: These settings are for advanced users. Changing them may significantly impact results. Default values are recommended for most users.
         </div>
       </div>
-      <div style={{ marginBottom: 16 }}>
-        <label style={{ fontWeight: 500, fontSize: 13 }}>
-          Relative CPA Calculation:&nbsp;
-          <select
-            value={params.relative_cpa_mode || "median"}
-            onChange={e => onChange("relative_cpa_mode", e.target.value)}
-            style={{
-              border: "1px solid #CBD5E1",
-              borderRadius: 8,
-              padding: "6px 8px",
-              fontSize: 12
-            }}
-          >
-            <option value="median">Median</option>
-            <option value="average">Average</option>
-          </select>
-        </label>
-      </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 24, marginTop: 32 }}>
         <label>Days to analyze
           <input type="number" min={2} max={7} value={params.lookback_days_short} onChange={(e)=>onChange("lookback_days_short", Number(e.target.value))} style={{ marginTop: 4, width: "100%", border: "1px solid #CBD5E1", borderRadius: 8, padding: "6px 8px", fontSize: 12 }}/>

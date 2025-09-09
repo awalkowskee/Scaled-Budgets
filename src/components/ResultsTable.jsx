@@ -7,7 +7,15 @@ export default function ResultsTable({ results, runMeta, onXLSX, onCSV, onPDF })
   const aggCPA = sumPurchases > 0 ? sumSpend / sumPurchases : null;
 
   return (
-    <div style={{ marginTop: 24, background: "#fff", borderRadius: 16, boxShadow: "0 1px 8px rgba(0,0,0,0.06)", padding: 16 }}>
+    <div style={{
+      marginTop: 24,
+      background: "#fff",
+      borderRadius: 16,
+      boxShadow: "0 1px 8px rgba(0,0,0,0.06)",
+      padding: 24,
+      width: "100%",
+      boxSizing: "border-box"
+    }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <h2 style={{ fontWeight: 500 }}>Results</h2>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
