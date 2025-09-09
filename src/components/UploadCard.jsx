@@ -21,6 +21,7 @@ export default function UploadCard({ onFile, onRun, onClear, onLoadSample, onRun
   };
 
   return (
+    
     <div style={{ background: "#fff", borderRadius: 16, boxShadow: "0 1px 8px rgba(0,0,0,0.06)", padding: 16 }}>
       <h2 style={{ fontWeight: 500, marginBottom: 12 }}>Upload CSV/XLS</h2>
       <p style={{ fontSize: 12, color: "#334155", marginBottom: 10 }}>
@@ -62,6 +63,7 @@ export default function UploadCard({ onFile, onRun, onClear, onLoadSample, onRun
         </button>
         
         <div
+          onClick={() => inputRef.current?.click()} // <-- Make clickable
           onDragEnter={handleDrag}
           onDragOver={handleDrag}
           onDragLeave={handleDrag}
@@ -80,6 +82,9 @@ export default function UploadCard({ onFile, onRun, onClear, onLoadSample, onRun
             alignItems: "center",
             minWidth: 80
           }}
+          tabIndex={0} // for accessibility
+          role="button"
+          aria-label="Drag file here or click to upload"
         >
           Drag file here
         </div>
@@ -118,3 +123,4 @@ export default function UploadCard({ onFile, onRun, onClear, onLoadSample, onRun
     </div>
   );
 }
+
